@@ -9,7 +9,11 @@ observation = env.reset()
 done = False
 
 while not done:
-    action = 2  # NOOP
+
+    grid = env.get_grid()
+    print(grid)
+
+    action = 2
     observation, reward, done = env.step(action)
 
     print(
