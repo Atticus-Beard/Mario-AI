@@ -4,8 +4,15 @@ from gym_super_mario_bros.actions import COMPLEX_MOVEMENT
 import numpy as np
 
 class MarioEnvironment:
-    def __init__(self):
-        env = gym_super_mario_bros.make("SuperMarioBros-v0", render_mode="human")
+    def __init__(self, render=False):
+
+        if render:
+            mode = "human"
+        else:
+            mode = None
+
+
+        env = gym_super_mario_bros.make("SuperMarioBros-v0", render_mode=mode)
 
         # When using COMPLEX_MOVEMENT there is 12 discrete actions available. The actions are:
         # 0. NOOP
