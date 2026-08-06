@@ -22,7 +22,7 @@ class Fitness:
 
         self.stuck = False
 
-    def update(self, info, done, player_state):
+    def update(self, info,done, player_state):
         state_changed = player_state != self.previous_player_state
 
         # --------------------------
