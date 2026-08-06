@@ -38,6 +38,9 @@ class MarioEnvironment:
         # The RAM state is a 2048-byte array that contains the current state of the game. We can access the RAM state using the `ram` attribute of the environment.
         self.ram = self.env.unwrapped.ram
 
+    def get_player_state(self):
+        return int(self.ram[0x000E])
+
     def reset(self):
         return self.env.reset()
     
