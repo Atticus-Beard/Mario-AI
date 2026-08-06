@@ -13,12 +13,13 @@ class MarioEnvironment:
         # 2. Right + A
         # 3. Right + B
         # 4. Right + A + B
-        # 5. Left
-        # 6. Left + A
-        # 7. Left + B
-        # 8. Left + A + B
-        # 9. Down
-        # 10. Up
+        # 5. A
+        # 6. Left
+        # 7. Left + A
+        # 8. Left + B
+        # 9. Left + A + B 
+        # 10. Down
+        # 11. Up
 
         # When using SIMPLE_MOVEMENT there is 7 discrete actions available. The actions are:
         # 0. NOOP
@@ -44,7 +45,7 @@ class MarioEnvironment:
         observation, reward, terminated, truncated, info = self.env.step(action)
         done = terminated or truncated
         self.env.render()
-        return observation, reward, done
+        return observation, reward, done, info
 
     def close(self):
         self.env.close()
@@ -60,7 +61,6 @@ class MarioEnvironment:
 
         return address
 
-    #
 
     def get_grid(self):
         width = 16
