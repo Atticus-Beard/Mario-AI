@@ -101,7 +101,7 @@ class NeuralNetwork:
             for bias in self.biases
         ]
 
-        child.fitness = 0
+        child.fitness = self.fitness
 
         return child
 
@@ -141,19 +141,56 @@ class NeuralNetwork:
                 * mask
             )
 
-    def save(self, filename):
+    @staticmethod
+    def breed(parent1, parent2):
         """
-        Saves the neural network to disk.
+        Create a child by combining two parents.
+        Both parents must have the same architecture.
         """
 
+        child = NeuralNetwork(parent1.layers)
+
+        child.weights = []
+        child.biases = []
+
+        for w1, w2 in zip(parent1.weights, parent2.weights):
+
+            mask = np.random.rand(*w1.shape) < 0.5
+
+            child.weights.append(
+                np.where(mask, w1, w2)
+            )
+
+        for b1, b2 in zip(parent1.biases, parent2.biases):
+
+            mask = np.random.rand(*b1.shape) < 0.5
+
+            child.biases.append(
+                np.where(mask, b1, b2)
+            )
+
+        child.fitness = 0
+
+        return child
+
+
+
+    
+    def save(self, filename, generation=0, fitness=0):
+
+        checkpoint = {
+            "model": self,
+            "generation": generation,
+            "fitness": fitness
+        }
+
         with open(filename, "wb") as file:
-            pickle.dump(self, file=file)
+            pickle.dump(checkpoint, file)
 
     @staticmethod
     def load(filename):
-        """
-        Load a saved neural network.
-        """
 
         with open(filename, "rb") as file:
-            return pickle.load(file)
+            checkpoint = pickle.load(file)
+
+        return checkpoint

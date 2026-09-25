@@ -6,6 +6,8 @@ import numpy as np
 class MarioEnvironment:
     def __init__(self, render=False):
 
+        self.render_enabled = render
+
         if render:
             mode = "human"
         else:
@@ -45,6 +47,9 @@ class MarioEnvironment:
         # The RAM state is a 2048-byte array that contains the current state of the game. We can access the RAM state using the `ram` attribute of the environment.
         self.ram = self.env.unwrapped.ram
 
+        self.tile_addresses = np.zeros((32, 13), dtype=np.int32)
+        
+
     def get_player_state(self):
         return int(self.ram[0x000E])
 
@@ -54,7 +59,10 @@ class MarioEnvironment:
     def step(self, action):
         observation, reward, terminated, truncated, info = self.env.step(action)
         done = terminated or truncated
-        self.env.render()
+
+        if self.render_enabled:
+            self.env.render()
+            
         return observation, reward, done, info
 
     def close(self):
